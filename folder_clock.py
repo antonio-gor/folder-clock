@@ -1,3 +1,16 @@
+"""  folder_clock.py
+The tiny stupid folder-clock you never asked for.
+
+Example:
+    Run in your current working directory in 12h mode:
+        $ python folder_clock.py
+    Run in a specified directory (ie, Desktop):
+        $ python folder_clock.py --wd ~/Desktop
+    Run in 24h mode:
+        $ python folder_clock --mode 24
+    Run in a specified directory in 24h mode
+        $ python folder_clock.py --wd ~/Desktop --mode 24
+"""
 import argparse
 import datetime
 import time
@@ -5,7 +18,7 @@ import os
 
 class FolderClock:
     ''' Folder clock class. '''
-    def __init__(self, wd="", mode=0):
+    def __init__(self, wd="", mode=12):
         self.wd = wd
         self.mode = mode
         self.time = None
@@ -67,12 +80,13 @@ class FolderClock:
 
 
 def get_args():
+    ''' Get system args for wd and mode. '''
     parser = argparse.ArgumentParser()
     parser.add_argument("--wd", help="dir to display the folder-clock")
     parser.add_argument("--mode", help="either 12 or 24 hr mode")
     args = parser.parse_args()
     wd = args.wd if args.wd is not None else ""
-    mode = int(args.mode) if args.mode is not None else ""
+    mode = int(args.mode) if args.mode is not None else 12
     return wd, mode
 
 def main():
