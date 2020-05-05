@@ -1,5 +1,5 @@
 import argparse
-import sched
+import datetime
 import time
 import os
 
@@ -15,11 +15,10 @@ class FolderClock:
 
     def run(self):
         ''' Start displaying the folder clock. '''
-        self.update()
-        s = sched.scheduler(time.time, time.sleep)
         while True:
-            s.enter(60, 1, self.update)
-            s.run()
+            self.update()
+            delta = 60 - datetime.datetime.now().second
+            time.sleep(delta)  # Sleep until minute changes
 
     def update(self):
         ''' Create a folder with the time as its name. '''
