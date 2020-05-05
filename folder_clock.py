@@ -23,7 +23,7 @@ class FolderClock:
     def update(self):
         ''' Create a folder with the time as its name. '''
         if self.wd == "":
-            self.wd = self.get_wd()
+            self.wd = os.getcwd()
         self.time = self.get_time()
         self.fname = self.wd + '/' + '.'.join(self.time)
         if self.mode == 12:
@@ -45,9 +45,11 @@ class FolderClock:
             current_time[0] = str(int(current_time[0]) - 12)
         return current_time
 
-    def get_wd(self):
-        ''' Return the current working directory. '''
-        return os.getcwd()
+    def h24_to_h12(self):
+        ''' Return hour (t[0]) in 12 hr format. '''
+        h = int(self.time[0])
+        self.period = 'am' if h < 12 else 'pm'
+        return h if h < 12 else h - 12
 
     def make_folder(self):
         ''' Create folder self.fname. '''
@@ -62,12 +64,6 @@ class FolderClock:
             os.rmdir(self.prev)
         except OSError:
             print("Deletion of the directory %s failed" % self.prev)
-
-    def h24_to_h12(self):
-        ''' Return hour (t[0]) in 12 hr format. '''
-        h = int(self.time[0])
-        self.period = 'am' if h < 12 else 'pm'
-        return h if h < 12 else h - 12
 
 
 def get_args():
